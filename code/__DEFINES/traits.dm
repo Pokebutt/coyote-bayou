@@ -250,7 +250,7 @@
 /// Prevents sprinting from being active.
 #define TRAIT_SPRINT_LOCKED				"sprint_locked"
 
-
+#define TRAIT_TSMITH		"Tribal Smith"	//tribal metalworking
 #define TRAIT_SMUTANT		"Super Mutant"	//boosts salvage return
 #define	TRAIT_CHEMWHIZ			"chemwhiz"
 #define TRAIT_TECHNOPHOBE		"luddite" //Cannot use autolathes/biogens
