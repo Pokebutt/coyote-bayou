@@ -19,6 +19,8 @@
 
 // Metal
 
+var/requires_trait = 1
+
 GLOBAL_LIST_INIT(metal_recipes, list ( \
 	new/datum/stack_recipe("wall girders", /obj/structure/girder, 2, time = 40, one_per_turf = TRUE, on_floor = TRUE, trait_booster = TRAIT_QUICK_BUILD, trait_modifier = 0.75), \
 	new/datum/stack_recipe("floor tile", /obj/item/stack/tile/plasteel, 1, 4, 20), \
@@ -583,20 +585,13 @@ GLOBAL_LIST_INIT(cardboard_recipes, list ( \
  */
 
 GLOBAL_LIST_INIT(runed_metal_recipes, list ( \
-	new/datum/stack_recipe("runed door", /obj/machinery/door/airlock/cult, 1, time = 50, one_per_turf = TRUE, on_floor = TRUE), \
-	new/datum/stack_recipe("runed girder", /obj/structure/girder/cult, 1, time = 50, one_per_turf = TRUE, on_floor = TRUE), \
-	new/datum/stack_recipe("pylon", /obj/structure/destructible/cult/pylon, 4, time = 40, one_per_turf = TRUE, on_floor = TRUE), \
-	new/datum/stack_recipe("forge", /obj/structure/destructible/cult/forge, 3, time = 40, one_per_turf = TRUE, on_floor = TRUE), \
-	new/datum/stack_recipe("archives", /obj/structure/destructible/cult/tome, 3, time = 40, one_per_turf = TRUE, on_floor = TRUE), \
-	new/datum/stack_recipe("altar", /obj/structure/destructible/cult/talisman, 3, time = 40, one_per_turf = TRUE, on_floor = TRUE), \
-	new/datum/stack_recipe("anvil", /obj/structure/anvil/obtainable/narsie, 4, time = 40, one_per_turf = TRUE, on_floor = TRUE), \
 	new/datum/stack_recipe("runic ingot", /obj/item/ingot/cult, 2, time = 100), \
-		new/datum/stack_recipe("rune smith's hammer", /obj/item/melee/smith/hammer/narsie, 6), \
+	new/datum/stack_recipe("anvil", /obj/structure/anvil/obtainable/narsie, 4, time = 40, one_per_turf = TRUE, on_floor = TRUE), \
 	))
 
 /obj/item/stack/sheet/runed_metal
 	name = "runed metal"
-	desc = "Sheets of cold metal with shifting inscriptions writ upon them."
+	desc = "Sheets of high quality steel there are Sulphur Pit inscriptions writ upon them."
 	singular_name = "runed metal sheet"
 	icon_state = "sheet-runed"
 	item_state = "sheet-runed"
@@ -605,7 +600,7 @@ GLOBAL_LIST_INIT(runed_metal_recipes, list ( \
 	sheettype = "runed"
 	merge_type = /obj/item/stack/sheet/runed_metal
 	novariants = TRUE
-	grind_results = list(/datum/reagent/iron = 5, /datum/reagent/blood = 15)
+	grind_results = list(/datum/reagent/iron = 5)
 	material_type = /datum/material/runedmetal
 
 /obj/item/stack/sheet/runed_metal/ratvar_act()
@@ -613,14 +608,12 @@ GLOBAL_LIST_INIT(runed_metal_recipes, list ( \
 	qdel(src)
 
 /obj/item/stack/sheet/runed_metal/attack_self(mob/living/user)
-	if(!iscultist(user))
-		to_chat(user, "<span class='warning'>Only one with forbidden knowledge could hope to work this metal...</span>")
+	if(requires_trait== "Tribal Smith")
+		if(HAS_TRAIT(user,TRAIT_TSMITH))
+			return
+		else
+			to_chat(user, "<span class='warning'>The metal appears to be much too rigid to form into an ingot</span>")
 		return
-	var/turf/T = get_turf(user) //we may have moved. adjust as needed...
-	var/area/A = get_area(user)
-	if((!is_station_level(T.z) && !is_mining_level(T.z)) || (A && !A.blob_allowed))
-		to_chat(user, "<span class='warning'>The veil is not weak enough here.</span>")
-		return FALSE
 	return ..()
 
 /obj/item/stack/sheet/runed_metal/get_main_recipes()
