@@ -37,7 +37,7 @@
 	sharpness = SHARP_EDGED
 	material_flags = MATERIAL_COLOR | MATERIAL_AFFECT_STATISTICS
 	force = WEAPON_FORCE_TOOL_LARGE
-	wielded_mult = WEAPON_SLASH_TWOHAND_MULT
+	wielded_mult = 1.8
 	w_class = WEIGHT_CLASS_BULKY
 	var/icon_prefix = null
 
@@ -325,7 +325,7 @@
 	icon_prefix = "katana_smith"
 	overlay_state = "hilt_katana"
 	force = WEAPON_FORCE_SLASH_LARGE
-	wielded_mult = WEAPON_SLASH_TWOHAND_MULT
+	wielded_mult = 1.5
 	item_flags = ITEM_CAN_PARRY | NEEDS_PERMIT
 	block_parry_data = /datum/block_parry_data/smithrapier
 	hitsound = 'sound/weapons/rapierhit.ogg'
@@ -356,7 +356,7 @@
 	overlay_state = "shaft_axe"
 	total_mass = TOTAL_MASS_MEDIEVAL_WEAPON * 2
 	force = WEAPON_FORCE_AXE_LARGE
-	wielded_mult = WEAPON_AXE_TWOHAND_MULT
+	wielded_mult = 1.8
 	mob_overlay_icon = 'icons/fallout/onmob/backslot_weapon.dmi'
 	slot_flags = ITEM_SLOT_BACK
 	layer = MOB_UPPER_LAYER
